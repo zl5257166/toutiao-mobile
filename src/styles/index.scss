@@ -1,1 +1,15 @@
-@import "./icon.scss"
+@import "./icon.scss";
+
+body {
+  background-color: #ededed;
+}
+// 顶部导航样式
+.app-nav-bar {
+  background-color: #3196fa;
+  .van-nav-bar__title {
+    color: #ffffff;
+  }
+  .van-icon {
+    color: #ffffff;
+  }
+}
