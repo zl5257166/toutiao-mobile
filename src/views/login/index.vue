@@ -88,6 +88,7 @@ export default {
         this.$toast.success('登录成功')
         // 存入token
         this.$store.commit('setToken', data.data)
+        this.$router.back()
       } catch (err) {
         this.$toast.fail('登录失败，手机号或验证码错误')
       }
