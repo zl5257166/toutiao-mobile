@@ -8,9 +8,9 @@
                 slot="icon"
                 round
                 fit="cover"
-                src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                :src="userInfo.photo"
               />
-              <div slot="title" class="nick-name">昵称</div>
+              <div slot="title" class="nick-name">{{ userInfo.name }}</div>
               <van-button
                 class="update-btn"
                 size="mini"
@@ -20,25 +20,25 @@
           <van-grid :border="false" class="user-btm">
             <van-grid-item>
               <div slot="text">
-                <div class="num">101</div>
+                <div class="num">{{ userInfo.art_count }}</div>
                 <div class="text">头条</div>
               </div>
             </van-grid-item>
             <van-grid-item>
               <div slot="text">
-                <div class="num">101</div>
+                <div class="num">{{ userInfo.follow_count }}</div>
                 <div class="text">关注</div>
               </div>
             </van-grid-item>
             <van-grid-item>
               <div slot="text">
-                <div class="num">101</div>
+                <div class="num">{{ userInfo.fans_count }}</div>
                 <div class="text">粉丝</div>
               </div>
             </van-grid-item>
             <van-grid-item>
               <div slot="text">
-                <div class="num">101</div>
+                <div class="num">{{ userInfo.like_count }}</div>
                 <div class="text">获赞</div>
               </div>
             </van-grid-item>
@@ -55,28 +55,53 @@
       </van-grid>
       <van-cell title="消息通知" is-link url="" />
       <van-cell title="小智同学" is-link to="" class="mb-4" />
-      <van-cell v-if="user" class="log-out" title="退出登录" center />
+      <van-cell v-if="user" class="log-out" title="退出登录" center @click="logOut" />
    </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { getUserInfo } from '@/api/user'
 export default {
   name: 'profileIndex',
   components: {},
   props: {},
   data () {
     return {
-
+      userInfo: {}
     }
   },
   computed: {
     ...mapState(['user'])
   },
   watch: {},
-  created () {},
+  created () {
+    if (this.user) {
+      this.loadUserInfo()
+    }
+  },
   mounted () {},
-  methods: {}
+  methods: {
+    async loadUserInfo () {
+      // 获取用户信息
+      const { data } = await getUserInfo()
+      this.userInfo = data.data
+    },
+    /**
+     * 退出
+     */
+    logOut () {
+      this.$dialog.confirm({
+        title: '退出登录',
+        message: '确认退出吗？'
+      }).then(() => {
+        // on confirm
+        this.$store.commit('setToken', null)
+      }).catch(() => {
+        // on cancel
+      })
+    }
+  }
 }
 </script>
 <style lang='scss' scoped>

@@ -23,3 +23,12 @@ export function getCode (mobile) {
     method: 'get'
   })
 }
+/**
+ * 获取用户信息
+ */
+export function getUserInfo () {
+  return request({
+    url: '/app/v1_0/user',
+    method: 'get'
+  })
+}
