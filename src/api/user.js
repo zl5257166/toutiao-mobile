@@ -32,3 +32,12 @@ export function getUserInfo () {
     method: 'get'
   })
 }
+/**
+ * 获取当前用户频道列表
+ */
+export function getUserChannels () {
+  return request({
+    url: '/app/v1_0/user/channels',
+    method: 'get'
+  })
+}
