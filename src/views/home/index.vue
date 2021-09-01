@@ -7,7 +7,17 @@
       <van-tab v-for="item in channels" :key="item.id" :title="item.name">
         <article-list :channel="item" />
       </van-tab>
+      <div slot="nav-right" class="wap-nav" @click="showEditBox">
+        <van-icon name="wap-nav" />
+      </div>
     </van-tabs>
+    <van-popup
+      v-model="isShowEdit"
+      position="bottom"
+      :style="{ height: '100%' }"
+      closeable
+      get-container="body"
+    />
    </div>
 </template>
 
@@ -24,7 +34,8 @@ export default {
   data () {
     return {
       active: 0,
-      channels: [] // 频道列表
+      channels: [], // 频道列表
+      isShowEdit: false // 是否展示编辑频道弹出层
     }
   },
   computed: {},
@@ -40,6 +51,12 @@ export default {
     async getMychannels () {
       const { data } = await getUserChannels()
       this.channels = data.data.channels
+    },
+    /**
+     * 点击出现编辑频道弹出层
+     */
+    showEditBox () {
+      this.isShowEdit = true
     }
   }
 }
@@ -63,7 +80,7 @@ export default {
       border: 1px solid #edeff3;
     }
     /deep/.van-tabs__nav {
-      padding-right: 0;
+      padding-right: 33px;
       padding-left: 0;
       .van-tabs__line {
         bottom: 20px;
@@ -71,6 +88,25 @@ export default {
         height: 2px;
         background: #3296fa;
       }
+    }
+    .wap-nav {
+      position: fixed;
+      right: 0px;
+      width: 33px;
+      height: 43px;
+      line-height: 50px;
+      background: #ffffff;
+      opacity: .9;
+      text-align: center;
+    }
+    .wap-nav::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      height: 33px;
+      width: 1px;
+      background: linear-gradient(to top, #eae8e8 0%, #cbcbcb 50%, #eae8e8 100%);
     }
   }
 </style>

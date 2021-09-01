@@ -7,7 +7,6 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <!-- <van-cell v-for="item in articles" :key="item.art_id" :title="item.title" /> -->
         <article-item v-for="item in articles" :key="item.art_id" :article="item" />
       </van-list>
     </van-pull-refresh>
