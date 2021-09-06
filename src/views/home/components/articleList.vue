@@ -85,10 +85,4 @@ export default {
     top: 90px;
     overflow-y: auto;
   }
-  /* 隐藏滚动条 */
-  ::-webkit-scrollbar{
-    width: 0;
-    height: 0;
-    color: transparent;
-  }
 </style>

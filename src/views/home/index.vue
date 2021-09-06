@@ -17,28 +17,36 @@
       :style="{ height: '100%' }"
       closeable
       get-container="body"
-    />
+    >
+    <channel-edit :my-channels="channels" :activeIndex="active" @toOneChannel="toOneChannel" @close="close" />
+    </van-popup>
    </div>
 </template>
 
 <script>
 import { getUserChannels } from '@/api/user'
+import { mapState } from 'vuex'
+import { getItem } from '@/utils/storage'
 
 import articleList from './components/articleList.vue'
+import ChannelEdit from './components/channel-edit.vue'
 export default {
   name: 'HomeIndex',
   components: {
-    articleList
+    articleList,
+    ChannelEdit
   },
   props: {},
   data () {
     return {
       active: 0,
       channels: [], // 频道列表
-      isShowEdit: false // 是否展示编辑频道弹出层
+      isShowEdit: true // 是否展示编辑频道弹出层
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['user'])
+  },
   watch: {},
   created () {
     this.getMychannels()
@@ -49,14 +57,38 @@ export default {
      * 获取当前用户频道列表
      */
     async getMychannels () {
-      const { data } = await getUserChannels()
-      this.channels = data.data.channels
+      let channelArr = []
+      if (this.user) { // 若登录，获取登录用户的频道列表
+        const { data } = await getUserChannels()
+        channelArr = data.data.channels
+      } else { // 未登录获取本地的推荐列表，若第一次进无本地存储，则请求默认的推荐列表
+        const localList = getItem('my-channels')
+        if (localList) {
+          channelArr = localList
+        } else {
+          const { data } = await getUserChannels()
+          channelArr = data.data.channels
+        }
+      }
+      this.channels = channelArr
     },
     /**
      * 点击出现编辑频道弹出层
      */
     showEditBox () {
       this.isShowEdit = true
+    },
+    /**
+     * 关闭弹出层，跳对应频道
+     */
+    toOneChannel (e) {
+      this.active = e
+    },
+    /**
+     * 关闭弹出层
+     */
+    close () {
+      this.isShowEdit = !this.isShowEdit
     }
   }
 }
