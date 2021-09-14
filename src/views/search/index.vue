@@ -3,21 +3,22 @@
     <!-- 搜索框 -->
     <div class="search-box">
       <van-search
-        v-model="value"
+        v-model="searchValue"
         shape="round"
         background="#3196fa"
         show-action
         placeholder="请输入搜索关键词"
         @search="onSearch"
         @cancel="$router.back(-1)"
+        @focus="isShowResult = false"
       />
     </div>
-    <!-- 历史记录 -->
-      <search-history />
-    <!-- 联想建议 -->
-      <search-suggestion />
     <!-- 搜索结果 -->
-      <search-result />
+    <search-result v-if="isShowResult" />
+    <!-- 联想建议 -->
+    <search-suggestion v-else-if="searchValue" />
+    <!-- 历史记录 -->
+    <search-history v-else />
   </div>
 </template>
 
@@ -31,7 +32,8 @@ export default {
   props: {},
   data () {
     return {
-      value: '' // 搜索关键字
+      searchValue: '', // 搜索关键字
+      isShowResult: false // 是否显示搜索结果
     }
   },
   computed: {},
@@ -43,7 +45,7 @@ export default {
      * 确定搜索
      */
     onSearch (val) {
-      this.$toast(val)
+      this.isShowResult = true
     }
   }
 }
