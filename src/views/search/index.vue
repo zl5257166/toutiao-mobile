@@ -14,9 +14,9 @@
       />
     </div>
     <!-- 搜索结果 -->
-    <search-result v-if="isShowResult" />
+    <search-result v-if="isShowResult" :search-text="searchValue" />
     <!-- 联想建议 -->
-    <search-suggestion v-else-if="searchValue" :search-text="searchValue" />
+    <search-suggestion v-else-if="searchValue" :search-text="searchValue" @sugClick="onSearch" />
     <!-- 历史记录 -->
     <search-history v-else />
   </div>
@@ -45,6 +45,7 @@ export default {
      * 确定搜索
      */
     onSearch (val) {
+      this.searchValue = val
       this.isShowResult = true
     }
   }

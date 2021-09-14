@@ -1,6 +1,6 @@
 <template>
    <div class="search-suggestion">
-     <van-cell v-for="(item, index) in suggestions" :key="index" icon="search">
+     <van-cell v-for="(item, index) in suggestions" :key="index" icon="search" clickable @click="$emit('sugClick',item)">
        <div slot="title" v-html="hightLight(item)"></div>
      </van-cell>
    </div>
@@ -42,6 +42,12 @@ export default {
     hightLight (str) {
       const reg = new RegExp(this.searchText, 'gi')
       return str.replace(reg, `<span style="color: red">${this.searchText}</span>`)
+    },
+    /**
+     * 点击某个搜索建议
+     */
+    sugClick (e) {
+      console.log(e)
     }
   }
 }
