@@ -10,14 +10,26 @@
 export default {
   name: 'SearchSuggestion',
   components: {},
-  props: {},
+  props: {
+    searchText: { // 搜索关键字
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
 
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    searchText: {
+      handler (e) {
+        console.log(e)
+      },
+      immediate: true // 监听开始立即执行handler,若false,只有数据开始变化才执行
+    }
+  },
   created () {},
   mounted () {},
   methods: {}

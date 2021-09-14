@@ -15,7 +15,8 @@
 export default {
   name: 'SearchResult',
   components: {},
-  props: {},
+  props: {
+  },
   data () {
     return {
       list: [],
@@ -24,7 +25,8 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+  },
   created () {},
   mounted () {},
   methods: {
