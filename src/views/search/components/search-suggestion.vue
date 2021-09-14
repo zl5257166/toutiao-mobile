@@ -1,12 +1,11 @@
 <template>
    <div class="search-suggestion">
-     <van-cell icon="search" title="hello" />
-     <van-cell icon="search" title="hello 11" />
-     <van-cell icon="search" title="hello 22" />
+     <van-cell v-for="(item, index) in suggestions" :key="index" icon="search" :title="item" />
    </div>
 </template>
 
 <script>
+import { getSuggestions } from '@/api/search'
 export default {
   name: 'SearchSuggestion',
   components: {},
@@ -18,14 +17,15 @@ export default {
   },
   data () {
     return {
-
+      suggestions: [] // 建议列表
     }
   },
   computed: {},
   watch: {
     searchText: {
-      handler (e) {
-        console.log(e)
+      async handler () {
+        const { data } = await getSuggestions(this.searchText)
+        this.suggestions = data.data.options
       },
       immediate: true // 监听开始立即执行handler,若false,只有数据开始变化才执行
     }
