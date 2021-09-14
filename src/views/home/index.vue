@@ -1,7 +1,7 @@
 <template>
    <div class="home-box">
      <van-nav-bar class="app-nav-bar">
-       <van-button slot="title" icon="search" round class="sear-box">搜索</van-button>
+       <van-button slot="title" icon="search" round class="sear-box" to="/search">搜索</van-button>
      </van-nav-bar>
      <van-tabs v-model="active" swipeable>
       <van-tab v-for="item in channels" :key="item.id" :title="item.name">
@@ -41,7 +41,7 @@ export default {
     return {
       active: 0,
       channels: [], // 频道列表
-      isShowEdit: true // 是否展示编辑频道弹出层
+      isShowEdit: false // 是否展示编辑频道弹出层
     }
   },
   computed: {
@@ -61,7 +61,7 @@ export default {
       if (this.user) { // 若登录，获取登录用户的频道列表
         const { data } = await getUserChannels()
         channelArr = data.data.channels
-      } else { // 未登录获取本地的推荐列表，若第一次进无本地存储，则请求默认的推荐列表
+      } else { // 未登录 获取本地的推荐列表，若第一次进无本地存储，则请求默认的推荐列表
         const localList = getItem('my-channels')
         if (localList) {
           channelArr = localList
