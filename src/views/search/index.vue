@@ -18,7 +18,7 @@
     <!-- 联想建议 -->
     <search-suggestion v-else-if="searchValue" :search-text="searchValue" @sugClick="onSearch" />
     <!-- 历史记录 -->
-    <search-history v-else :search-histories="searchHistories" />
+    <search-history v-else :search-histories="searchHistories" @deletAll="deletAll" @deleteOne="deleteOne" @hisClick="onSearch" />
   </div>
 </template>
 
@@ -40,7 +40,11 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    searchHistories () {
+      setItem('search-histories', this.searchHistories)
+    }
+  },
   created () {},
   mounted () {},
   methods: {
@@ -65,9 +69,23 @@ export default {
       // this.searchHistories = newList
       // 历史搜索记录持久化
       // 若登录，搜索时后端会自动记录；未登录，存本地
-      setItem('search-histories', this.searchHistories)
+      // setItem('search-histories', this.searchHistories)
       // 3展示搜索结果
       this.isShowResult = true
+    },
+    /**
+     * 删除所有历史记录
+     */
+    deletAll () {
+      this.searchHistories = []
+      setItem('search-histories', [])
+    },
+    /**
+     * 删除单条历史记录
+     */
+    deleteOne (index) {
+      this.searchHistories.splice(index, 1)
+      // setItem('search-histories', this.searchHistories)
     }
   }
 }

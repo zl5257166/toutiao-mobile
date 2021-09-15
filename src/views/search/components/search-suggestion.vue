@@ -42,12 +42,6 @@ export default {
     hightLight (str) {
       const reg = new RegExp(this.searchText, 'gi')
       return str.replace(reg, `<span style="color: red">${this.searchText}</span>`)
-    },
-    /**
-     * 点击某个搜索建议
-     */
-    sugClick (e) {
-      console.log(e)
     }
   }
 }
