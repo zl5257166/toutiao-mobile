@@ -1,16 +1,13 @@
 <template>
    <div class="search-history">
      <van-cell title="历史搜索">
-       <div>
-         <span>全部删除&nbsp;</span>
-         <span>完成</span>
+       <div v-if="!isShowDelete">
+         <span @click="allDelete">全部删除&nbsp;</span>
+         <span @click="successClick">完成</span>
        </div>
-       <van-icon name="delete" />
+       <van-icon name="delete" v-if="isShowDelete" @click="isShowDelete = false" />
      </van-cell>
-     <van-cell title="hello">
-       <van-icon name="close" />
-     </van-cell>
-     <van-cell title="hello">
+     <van-cell v-for="(item, index) in searchHistories" :key="index" :title="item">
        <van-icon name="close" />
      </van-cell>
    </div>
@@ -20,17 +17,37 @@
 export default {
   name: '',
   components: {},
-  props: {},
+  props: {
+    searchHistories: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   data () {
     return {
-
+      isShowDelete: true // 展示垃圾桶图标
     }
   },
   computed: {},
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    /**
+     * 点击完成
+     */
+    successClick () {
+      this.isShowDelete = true
+    },
+    /**
+     * 全部删除
+     */
+    allDelete () {
+      console.log(1)
+    }
+  }
 }
 </script>
 <style lang='scss' scoped>
